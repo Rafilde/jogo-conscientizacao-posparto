@@ -2,60 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
-    public float movementSpeed = 3;
-    Animator animator;
-    private Vector3 movement;
-    private CharacterController playerController;
+    public float moveSpeed = 5f;
+    public float gravity = -20f;
+    public float jumpHeight = 1.5f;
+    public float rotationSpeed = 10f;
+    public float airControl = 0.6f;
 
-    // void Start()
-    // {
-    //     animator = GetComponent<Animator>();
-    //     //playerController = GetComponent<CharacterController>();
-    //     //animator.applyRootMotion = true;
-    // }
+    private CharacterController controller;
+    private Vector3 velocity;
+    private Vector3 inputDirection;
+    private Animator animator;
 
-    // void Update()
-    // {
-    //     // movement.Set(-Input.GetAxisRaw("Horizontal"), 0, -Input.GetAxisRaw("Vertical"));
-    //     // playerController.Move(movementSpeed * Time.deltaTime * movement); isso vai fazer ele andar papai
-    //     // if (movement != Vector3.zero) {
-    //     //     transform.forward = movement;
-    //     // }
-        
-    //     movement.Set(-Input.GetAxisRaw("Horizontal"), 0, -Input.GetAxisRaw("Vertical"));
-    //     if (movement != Vector3.zero) {
-    //         transform.forward = movement;
-    //     }
-    //     ControllPlayer();
-    // }
+    private bool isJumping = false;
+    private float initialJumpY;
+    private float jumpTimeCounter;
+    private float jumpDuration = 0.4f;
 
     void Start()
     {
+        controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
-        playerController = GetComponent<CharacterController>();
-        animator.applyRootMotion = false;
+        animator.applyRootMotion = true;
     }
 
     void Update()
     {
-        movement.Set(-Input.GetAxisRaw("Horizontal"), 0, -Input.GetAxisRaw("Vertical"));
-        playerController.Move(movementSpeed * Time.deltaTime * movement); 
-        if (movement != Vector3.zero) {
-            transform.forward = movement;
-        }
-        
-        // movement.Set(-Input.GetAxisRaw("Horizontal"), 0, -Input.GetAxisRaw("Vertical"));
-        // if (movement != Vector3.zero) {
-        //     transform.forward = movement;
-        // }
-        ControllPlayer();
+        HandleMovement();
+
+        bool isMoving = inputDirection != Vector3.zero;
+
+        ControllPlayer(isMoving);
     }
 
-    void ControllPlayer()
+    void ControllPlayer(bool isMoving)
     {
-        bool isMoving = movement != Vector3.zero;
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
         if (isMoving && stateInfo.IsName("MainCharacterIdle"))
@@ -74,10 +56,8 @@ public class PlayerController : MonoBehaviour
 
         if (stateInfo.IsName("MainCharacterJump"))
         {
-            //animator.SetInteger("Jump", 0);
             animator.SetInteger("Landing", 1);
         }
-
 
         if (stateInfo.IsName("MainCharacterLanding"))
         {
@@ -93,4 +73,199 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    void HandleMovement()
+    {
+        float x = Input.GetAxisRaw("Horizontal");
+        float z = Input.GetAxisRaw("Vertical");
+
+        inputDirection = new Vector3(x, 0, z).normalized;
+
+        if (inputDirection != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(inputDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+        }
+
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+        if (controller.isGrounded && !stateInfo.IsName("MainCharacterJump"))
+        {
+            velocity.y = -2f;
+            isJumping = false;
+        }
+
+        if (stateInfo.IsName("MainCharacterJump"))
+        {
+            if (!isJumping)
+            {
+                isJumping = true;
+                jumpTimeCounter = 0f;
+                initialJumpY = transform.position.y;
+            }
+
+            if (jumpTimeCounter < jumpDuration)
+            {
+                float jumpProgress = jumpTimeCounter / jumpDuration;
+                float jumpVelocity = Mathf.Lerp(jumpHeight, 0, jumpProgress);
+                velocity.y = jumpVelocity;
+                jumpTimeCounter += Time.deltaTime;
+            }
+            else
+            {
+                velocity.y += gravity * Time.deltaTime;
+            }
+
+            Vector3 move = inputDirection * moveSpeed * airControl;
+            move.y = velocity.y;
+            controller.Move(move * Time.deltaTime);
+        }
+        else
+        {
+            velocity.y += gravity * Time.deltaTime;
+
+            Vector3 move = inputDirection * moveSpeed;
+            move.y = velocity.y;
+            controller.Move(move * Time.deltaTime);
+        }
+    }
 }
+// using System.Collections;
+// using System.Collections.Generic;
+// using UnityEngine;
+
+// public class PlayerMovement : MonoBehaviour
+// {
+//     public float moveSpeed = 5f;
+//     public float gravity = -20f;
+//     public float jumpHeight = 1.5f;
+//     public float rotationSpeed = 10f;
+//     public float airControl = 0.6f;
+
+//     private CharacterController controller;
+//     private Vector3 velocity;
+//     private Vector3 inputDirection;
+//     private Animator animator;
+
+//     private bool isJumping = false;
+//     private float initialJumpY;
+//     private float jumpTimeCounter;
+//     private float jumpDuration = 0.4f;
+
+//     void Start()
+//     {
+//         controller = GetComponent<CharacterController>();
+//         animator = GetComponent<Animator>();
+//         animator.applyRootMotion = true;
+//     }
+
+//     void Update()
+//     {
+//         HandleMovement();
+
+//         bool isMoving = inputDirection != Vector3.zero;
+
+//         ControllPlayer(isMoving);
+//     }
+
+//     void ControllPlayer(bool isMoving)
+//     {
+//         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+//         if (isMoving && stateInfo.IsName("MainCharacterIdle"))
+//         {
+//             animator.SetInteger("PreJump", 1);
+//         }
+//         else if (!isMoving && stateInfo.IsName("MainCharacterPreJump"))
+//         {
+//             animator.SetInteger("PreJump", 0);
+//         }
+
+//         if (stateInfo.IsName("MainCharacterPreJump") && isMoving)
+//         {
+//             animator.SetInteger("Jump", 1);
+//         }
+
+//         if (stateInfo.IsName("MainCharacterJump"))
+//         {
+//             animator.SetInteger("Landing", 1);
+//         }
+
+//         if (stateInfo.IsName("MainCharacterLanding"))
+//         {
+//             if (!isMoving)
+//             {
+//                 animator.SetInteger("PreJump", 0);
+//                 animator.SetInteger("Jump", 0);
+//                 animator.SetInteger("Landing", 0);
+//             }
+//             else
+//             {
+//                 animator.SetInteger("PreJump", 2);
+//             }
+//         }
+//     }
+
+//     void HandleMovement()
+// {
+//     float x = Input.GetAxisRaw("Horizontal");
+//     float z = Input.GetAxisRaw("Vertical");
+
+//     inputDirection = new Vector3(x, 0, z).normalized;
+
+//     if (inputDirection != Vector3.zero)
+//     {
+//         Quaternion targetRotation = Quaternion.LookRotation(inputDirection);
+//         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+//     }
+
+//     AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+//     if (controller.isGrounded && !stateInfo.IsName("MainCharacterJump"))
+//     {
+//         velocity.y = -2f;
+//         isJumping = false;
+//     }
+
+//     if (!controller.isGrounded)
+//     {
+//         if (stateInfo.IsName("MainCharacterJump"))
+//         {
+//             if (!isJumping)
+//             {
+//                 isJumping = true;
+//                 jumpTimeCounter = 0f;
+//                 initialJumpY = transform.position.y;
+//             }
+
+//             if (jumpTimeCounter < jumpDuration)
+//             {
+//                 float jumpProgress = jumpTimeCounter / jumpDuration;
+//                 float jumpVelocity = Mathf.Lerp(jumpHeight, 0, jumpProgress);
+//                 velocity.y = jumpVelocity;
+//                 jumpTimeCounter += Time.deltaTime;
+//             }
+//             else
+//             {
+//                 velocity.y += gravity * Time.deltaTime;
+//             }
+//         }
+//         else
+//         {
+//             velocity.y += gravity * Time.deltaTime;
+//         }
+
+//         Vector3 move = inputDirection * moveSpeed * airControl;
+//         move.y = velocity.y;
+//         controller.Move(move * Time.deltaTime);
+//     }
+//     else 
+//     {
+//         velocity.y += gravity * Time.deltaTime;
+
+//         Vector3 move = new Vector3(0, velocity.y, 0);
+//         controller.Move(move * Time.deltaTime);
+//     }
+// }
+
+// }
