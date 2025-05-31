@@ -1,0 +1,86 @@
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+using UnityEngine.SceneManagement;
+
+public class PrepareBottleController : MonoBehaviour
+{
+    public Button btnWater;
+    public Button btnPowderedMilk;
+    public Button btnFeedingBottle;
+
+    public Animator animWater;
+    public Animator animPowderedMilk;
+    public Animator animFeedingBottle;
+
+    void Start()
+    {
+        int current = PlayerPrefs.GetInt("FaseAtual", 1);
+
+        btnWater.interactable = false;
+        animWater.enabled = false;
+
+        btnPowderedMilk.interactable = false;
+        animPowderedMilk.enabled = false;
+
+        btnFeedingBottle.interactable = false;
+        animFeedingBottle.enabled = false;
+
+        if (current == 1)
+        {
+            DialogueManager.Instance.StartDialogue(new string[] {
+            "O bebê está com fome e precisa da sua ajuda para tomar seu leitinho!",
+            "Prepare com cuidado: ferva a água...",
+            "Adicione a medida certa de leite em pó...",
+            "E agite bem a mamadeira antes de entregar ao bebê.",
+            "Vamos começar!"
+        }, AtivarFase1); // <-- só ativa depois do diálogo
+        }
+        else if (current == 2)
+        {
+            DialogueManager.Instance.StartDialogue(new string[] {
+            "Agora é hora de adicionar o leite em pó."
+        }, AtivarFase2);
+        }
+        else if (current == 3)
+        {
+            DialogueManager.Instance.StartDialogue(new string[] {
+            "Agora vamos agitar bem a mamadeira!"
+        }, AtivarFase3);
+        }
+    }
+
+    void IrParaMinigameAgua()
+    {
+        SceneManager.LoadScene("MinigameFerverAgua");
+    }
+
+
+
+    void AtivarFase1()
+    {
+        btnWater.interactable = true;
+        animWater.enabled = true;
+
+        btnPowderedMilk.interactable = false;
+        animPowderedMilk.enabled = false;
+
+        btnFeedingBottle.interactable = false;
+        animFeedingBottle.enabled = false;
+
+        btnWater.onClick.AddListener(IrParaMinigameAgua);
+    }
+
+    void AtivarFase2()
+    {
+        btnPowderedMilk.interactable = true;
+        animPowderedMilk.enabled = true;
+    }
+
+    void AtivarFase3()
+    {
+        btnFeedingBottle.interactable = true;
+        animFeedingBottle.enabled = true;
+    }
+
+}
