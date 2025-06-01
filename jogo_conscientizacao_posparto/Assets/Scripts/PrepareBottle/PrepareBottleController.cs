@@ -33,19 +33,23 @@ public class PrepareBottleController : MonoBehaviour
             "Prepare com cuidado: ferva a água...",
             "Adicione a medida certa de leite em pó...",
             "E agite bem a mamadeira antes de entregar ao bebê.",
-            "Vamos começar!"
-        }, AtivarFase1); // <-- só ativa depois do diálogo
+            "Vamos começar!",
+            "Antes de tudo, precisamos ferver a água para garantir que o leite esteja seguro para o bebê!"
+        }, AtivarFase1); 
         }
         else if (current == 2)
         {
             DialogueManager.Instance.StartDialogue(new string[] {
-            "Agora é hora de adicionar o leite em pó."
+            "Muito bem! Agora é hora de colocar a quantidade certinha de leite em pó.",
+            "Use a medida exata para garantir que o bebê receba o leite do jeitinho certo.",
+            "Nem mais, nem menos – cuidado é essencial!"
         }, AtivarFase2);
         }
         else if (current == 3)
         {
             DialogueManager.Instance.StartDialogue(new string[] {
-            "Agora vamos agitar bem a mamadeira!"
+            "Agora é hora de fechar bem a mamadeira e agitar com força!",
+            "Assim, o leite e a água se misturam direitinho e o bebê recebe um leitinho bem homogêneo e gostoso."
         }, AtivarFase3);
         }
     }
