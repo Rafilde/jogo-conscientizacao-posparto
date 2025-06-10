@@ -56,7 +56,7 @@ public class PrepareBottleController : MonoBehaviour
 
     void IrParaMinigameAgua()
     {
-        SceneManager.LoadScene("MinigameFerverAgua");
+        SceneManager.LoadScene("PrepareWater");
     }
 
 

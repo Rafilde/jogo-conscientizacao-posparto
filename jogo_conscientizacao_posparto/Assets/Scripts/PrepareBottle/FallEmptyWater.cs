@@ -23,6 +23,7 @@ public class FallEmptyWater : MonoBehaviour
 
         if (bottleRect != null && IsOverlapping(rectTr, bottleRect))
         {
+            ScoreManager.Instance.SubtractScore(1);
             Destroy(gameObject);
             return;
         }
