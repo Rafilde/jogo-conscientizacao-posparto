@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FallFullWater : MonoBehaviour
+public class FallEmptyWater : MonoBehaviour
 {
     RectTransform rectTr;
     RectTransform bottleRect;
@@ -23,7 +23,7 @@ public class FallFullWater : MonoBehaviour
 
         if (bottleRect != null && IsOverlapping(rectTr, bottleRect))
         {
-            Destroy(gameObject); 
+            Destroy(gameObject);
             return;
         }
 
