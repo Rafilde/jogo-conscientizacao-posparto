@@ -59,6 +59,11 @@ public class PrepareBottleController : MonoBehaviour
         SceneManager.LoadScene("PrepareWater");
     }
 
+    void IrParaMinileitePo()
+    {
+        SceneManager.LoadScene("PreparePowderedMilk");
+    }
+
 
 
     void AtivarFase1()
@@ -79,6 +84,8 @@ public class PrepareBottleController : MonoBehaviour
     {
         btnPowderedMilk.interactable = true;
         animPowderedMilk.enabled = true;
+
+        btnPowderedMilk.onClick.AddListener(IrParaMinileitePo);
     }
 
     void AtivarFase3()
