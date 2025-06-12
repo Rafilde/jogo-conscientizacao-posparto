@@ -2123,9 +2123,53 @@ PrefabInstance:
       propertyPath: m_Name
       value: cenario
       objectReference: {fileID: 0}
+    - target: {fileID: 1469271785808240460, guid: df66fd2616eea00449081ca36061386e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.849
+      objectReference: {fileID: 0}
+    - target: {fileID: 1469271785808240460, guid: df66fd2616eea00449081ca36061386e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 1469271785808240460, guid: df66fd2616eea00449081ca36061386e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.79
+      objectReference: {fileID: 0}
+    - target: {fileID: 1469271785808240460, guid: df66fd2616eea00449081ca36061386e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1469271785808240460, guid: df66fd2616eea00449081ca36061386e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1469271785808240460, guid: df66fd2616eea00449081ca36061386e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1469271785808240460, guid: df66fd2616eea00449081ca36061386e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1469271785808240460, guid: df66fd2616eea00449081ca36061386e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -180
+      objectReference: {fileID: 0}
     - target: {fileID: 1771266950956608360, guid: df66fd2616eea00449081ca36061386e, type: 3}
       propertyPath: m_LocalPosition.z
       value: 10.0176735
+      objectReference: {fileID: 0}
+    - target: {fileID: 8412164996668672255, guid: df66fd2616eea00449081ca36061386e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.57
+      objectReference: {fileID: 0}
+    - target: {fileID: 8412164996668672255, guid: df66fd2616eea00449081ca36061386e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 8412164996668672255, guid: df66fd2616eea00449081ca36061386e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
