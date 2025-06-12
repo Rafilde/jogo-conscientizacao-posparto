@@ -6,7 +6,7 @@ public class MainMenuController : MonoBehaviour
     public void StartGame()
     {
         Debug.Log("Iniciar jogo");
-        // SceneManager.LoadScene("cena"); 
+        SceneManager.LoadScene("CutSceneOne"); 
     }
 
     public void OpenSettings()
