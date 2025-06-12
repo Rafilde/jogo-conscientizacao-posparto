@@ -119,7 +119,7 @@ public class PrepareBottleController : MonoBehaviour
 
         PlayerPrefs.SetInt("FaseAtual", 1);
 
-        SceneManager.LoadScene(""); //cena do mapa
+        SceneManager.LoadScene("InitialScene");
     }
 
 }

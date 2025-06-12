@@ -927,7 +927,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   score: 0
   scoreText: {fileID: 524325761}
-  scoreToWin: 45
+  scoreToWin: 30
   nextSceneName: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
