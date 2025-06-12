@@ -24,9 +24,9 @@ public class ShakeMamadeiraGame : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetMouseButtonDown(0))
         {
-            float ganho = aumentoBasePorClique * Mathf.Lerp(1f, 0.5f, progresso);
+            float ganho = aumentoBasePorClique * Mathf.Lerp(1f, 0.4f, progresso);
             progresso += ganho;
             progresso = Mathf.Clamp01(progresso);
 
@@ -55,7 +55,8 @@ public class ShakeMamadeiraGame : MonoBehaviour
 
         if (progresso >= 1f)
         {
-            SceneManager.LoadScene("NomeDaProximaCena");
+            PlayerPrefs.SetInt("FaseAtual", 4);
+            SceneManager.LoadScene("PrepareBottle");
         }
     }
 }

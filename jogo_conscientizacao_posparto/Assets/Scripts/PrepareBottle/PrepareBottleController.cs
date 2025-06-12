@@ -30,12 +30,12 @@ public class PrepareBottleController : MonoBehaviour
         {
             DialogueManager.Instance.StartDialogue(new string[] {
             "O bebê está com fome e precisa da sua ajuda para tomar seu leitinho!",
-            "Prepare com cuidado: ferva a água...",
+            "Prepare com cuidado: coloque a água...",
             "Adicione a medida certa de leite em pó...",
             "E agite bem a mamadeira antes de entregar ao bebê.",
             "Vamos começar!",
-            "Antes de tudo, precisamos ferver a água para garantir que o leite esteja seguro para o bebê!"
-        }, AtivarFase1); 
+            "Antes de tudo, precisamos colocar a água na mamdeira para o bebê!"
+        }, AtivarFase1);
         }
         else if (current == 2)
         {
@@ -52,6 +52,13 @@ public class PrepareBottleController : MonoBehaviour
             "Assim, o leite e a água se misturam direitinho e o bebê recebe um leitinho bem homogêneo e gostoso."
         }, AtivarFase3);
         }
+        else if (current == 4)
+        {
+            DialogueManager.Instance.StartDialogue(new string[] {
+            "Muito bem!",
+            "Agora nosso bebê está pronto para receber o leitinho.",
+        }, AtivarFase4);
+        }
     }
 
     void IrParaMinigameAgua()
@@ -64,7 +71,10 @@ public class PrepareBottleController : MonoBehaviour
         SceneManager.LoadScene("PreparePowderedMilk");
     }
 
-
+    void IrParaAgitarMamadeira()
+    {
+        SceneManager.LoadScene("FinishBottle");
+    }
 
     void AtivarFase1()
     {
@@ -92,6 +102,24 @@ public class PrepareBottleController : MonoBehaviour
     {
         btnFeedingBottle.interactable = true;
         animFeedingBottle.enabled = true;
+
+        btnFeedingBottle.onClick.AddListener(IrParaAgitarMamadeira);
+    }
+
+    void AtivarFase4()
+    {
+        btnWater.interactable = false;
+        animWater.enabled = false;
+
+        btnPowderedMilk.interactable = false;
+        animPowderedMilk.enabled = false;
+
+        btnFeedingBottle.interactable = false;
+        animFeedingBottle.enabled = false;
+
+        PlayerPrefs.SetInt("FaseAtual", 1);
+
+        SceneManager.LoadScene(""); //cena do mapa
     }
 
 }
